@@ -1,0 +1,21 @@
+version: '2'
+
+volumes:
+  metabase_database: {}
+
+services:
+  metabase:
+    image: metabase/metabase
+    ports:
+      - "8000:3000"
+    depends_on:
+      - metabase-database
+  metabase-database:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    env_file:
+      - .env
+    ports:
+      - '3306'
+    volumes:
+      - metabase_database:/var/lib/mysql
